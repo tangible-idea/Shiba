@@ -14,10 +14,17 @@ contract ZombieFactory {
 
     function _createZombie(string _name, uint _dna) private {
         zombies.push(Zombie(_name, _dna));
-    } 
+        // 여기서 이벤트 실행
+    }
 
     function _generateRandomDna(string _str) private view returns (uint) {
-        // 여기서 시작
+        uint rand = uint(keccak256(_str));
+        return rand % dnaModulus;
+    }
+
+    function createRandomZombie(string _name) public {
+        uint randDna = _generateRandomDna(_name);
+        _createZombie(_name, randDna);
     }
 
 }
